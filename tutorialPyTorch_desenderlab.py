@@ -99,8 +99,9 @@ class ConvNeuralNetwork(nn.Module):
         logits = self.linear_relu_stack(x)
         return logits
 
-#model = SimpleNeuralNetwork()
-model = ConvNeuralNetwork()
+#choose the model that you want to use, by commenting out the other one
+model = SimpleNeuralNetwork()
+#model = ConvNeuralNetwork()
 print(model)
 
 #define functions for training and evaluation of the model
