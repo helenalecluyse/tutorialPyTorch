@@ -17,7 +17,7 @@ from torch import nn
 training_data = datasets.MNIST(
     root='data', 
     train=True,
-    download=False,
+    download=True,
     transform=ToTensor()
 )
 
@@ -104,6 +104,17 @@ model = SimpleNeuralNetwork()
 #model = ConvNeuralNetwork()
 print(model)
 
+#visualize model architecture
+import torchviz
+import os
+os.environ["PATH"] += os.pathsep + 'C:/Users/helen/Documents/KULeuven/master 2/stage/tutorials programmeren/Graphviz-12.1.2-win32/bin'
+
+dummy_input = torch.randn(1, 1, 28, 28)  # MNIST images are 1x28x28
+output = model(dummy_input)
+
+torchviz.make_dot(output, params=dict(model.named_parameters())).render("model_graph", format="png")
+#it works, but it is not a nice visualization 
+
 #define functions for training and evaluation of the model
 epochs = 3
 train_losses = []
@@ -180,6 +191,15 @@ plt.legend(['Train Loss', 'Test Loss'], loc='upper right')
 plt.xlabel('number of training examples seen')
 plt.ylabel('negative log likelihood loss')
 fig
+
+#visualize model architecture
+import torchviz
+import os
+os.environ["PATH"] += os.pathsep + 'C:/Users/helen/Documents/KULeuven/master 2/stage/tutorials programmeren/Graphviz-12.1.2-win32/bin'
+
+
+torchviz.make_dot(model, params=dict(model.named_parameters())).render("model_graph", format="png")
+#it works, but it is not a nice visualization 
 
 #save  model
 torch.save(model, 'modelMNIST.pth')
