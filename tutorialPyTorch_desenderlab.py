@@ -17,7 +17,7 @@ from torch import nn
 training_data = datasets.MNIST(
     root='data', 
     train=True,
-    download=False,
+    download=True,
     transform=ToTensor()
 )
 
