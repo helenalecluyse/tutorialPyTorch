@@ -14,17 +14,15 @@ import matplotlib.pyplot as plt
 from torch import nn                             
 
 #load data 
-data_directory = "C:/Users/helen/Documents/KULeuven/master 2/stage/tutorials programmeren/data"
-
 training_data = datasets.MNIST(
-    root=data_directory, 
+    root='data', 
     train=True,
     download=False,
     transform=ToTensor()
 )
 
 test_data = datasets.MNIST(
-    root=data_directory,
+    root='data',
     train=False,
     download=True,
     transform=ToTensor()
@@ -60,7 +58,7 @@ train_dataloader = DataLoader(training_data, batch_size= batch_size, shuffle=Tru
 test_dataloader = DataLoader(test_data, batch_size= batch_size, shuffle=True)
 
 #create model structure
-class NeuralNetwork(nn.Module):
+class SimpleNeuralNetwork(nn.Module):
     def __init__(self):
         super().__init__()
         self.flatten = nn.Flatten()
@@ -77,7 +75,32 @@ class NeuralNetwork(nn.Module):
         logits = self.linear_relu_stack(x)
         return logits
 
-model = NeuralNetwork()
+class ConvNeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(in_channels = 1, out_channels = 10 , kernel_size = 3, stride = 1),
+            nn.BatchNorm2d(10),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size = 3, stride = 2)
+            )
+        
+        self.linear_relu_stack = nn.Sequential(
+            nn.Linear(10*12*12, 512),
+            nn.ReLU(),
+            nn.Linear(512, 512),
+            nn.ReLU(),
+            nn.Linear(512, 10),
+        )
+
+    def forward(self, x):
+        x = self.conv(x)
+        x = torch.flatten(x, 1)
+        logits = self.linear_relu_stack(x)
+        return logits
+
+#model = SimpleNeuralNetwork()
+model = ConvNeuralNetwork()
 print(model)
 
 #define functions for training and evaluation of the model
