@@ -1,6 +1,7 @@
 # tutorialPyTorch
 Hi everyone,
 for our next TechClub, we made this tutorial to teach you how to train your own neural network!
+You can find it under filename 'tutorial_notebook.ipynb'.
 
 For this tutorial we will use PyTorch. To save some time, we ask you to already install PyTorch using the following link:
 https://pytorch.org/get-started/locally/ 
